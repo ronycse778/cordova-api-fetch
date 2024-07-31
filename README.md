@@ -11,7 +11,7 @@ Type ipconfig in CMD, to find pc ip. suppose(192.168.68.108) <br>
 Clone and follow processes and run server with
 <pre>php artisan serve --host=0.0.0.0</pre>
 So, basically the server will run in <code>http://192.168.68.108:8000</code> <br>
-If server is ok, it can be checked with the link <code>http://192.168.68.108:8000/users</code> in browser. <br>
+If server is ok, it can be checked with the link <code>http://192.168.68.108:8000/api/v1/users</code> in browser. <br>
 No login is required. <br>
 
 As this link is http server so, a cordova advanced http plugin is required.

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Test Data Fetch</title>
+
+        <link rel="stylesheet" href="libs/jQueryMobile/jquery.mobile-1.4.5.min.css" />
+		
+		<style>
+            body{
+                background-color:#FAEBD7;
+            }
+			#fetchForm input, #fetchForm select{
+				width: 100% !important;
+				margin-bottom: 5px;
+				height: 30px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				padding: 0 5px;
+			}
+			.btnSubmit, .btnReset{
+				background-color: #2B96CC;
+				border-radius: 3px;
+				border: none;
+				color: #fff;
+				height: 30px;
+				width:85px;
+			}
+			th, td{
+				border:1px solid #666666;
+				padding:3px 5px;
+			}
+			.resultTable{
+				border-collapse: collapse;
+				width:100%;
+			}
+			.btnReset{
+				background-color: #e5a31d;
+			}
+            #msg{
+                color:red;
+                display: none;
+            }
+            #msgSuccess{
+                color:green;
+                display: none;
+            }
+		</style>
+		
+		
+    </head>
+    <body style="background-color:#FAEBD7;">
+
+    	<div data-role="page">
+			<div data-role="header">
+				<h3>Fetch Data</h3>
+			</div>
+
+			<div role="main" class="ui-content">
+				<form id="fetchForm">
+                    <select name="status" id="status">
+                        <option value="100">All</option>
+                        <option value="1">Approved</option>
+                        <option value="0">Pending</option>
+                    </select><br>
+                    <button type="submit" class="btnSubmit">Submit</button>
+                    <button type="button" class="btnReset">Reset</button>
+                    <p id="msg"></p>
+                    <p id="msgSuccess"></p>
+                </form>
+                <br>
+                <table class="resultTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody class="resultBody">
+                    </tbody>
+                </table>
+				<!-- <ul data-role="listview">
+				    <li>Acura</li>
+				</ul> -->
+			</div>
+
+			
+
+			<div data-role="footer" style="text-align: center;">
+				<h4>30 July, 2024 (rony007bd@gmail.com)</h4>
+				<h4>ronycse778</h4>
+			</div><!-- /footer -->
+		</div><!-- /page -->
+
+        <script src="cordova.js"></script>
+        <script src="libs/fastclick.min.js"></script>
+        <script src="libs/jquery-3.7.1.min.js"></script>
+		<script src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
+		<script src="js/index.js"></script>
+
+		<script>
+			// Fetch data 
+			$(document).ready(function() {
+				$('#fetchForm').on('submit', function(event) {
+					event.preventDefault();
+                    $('.resultBody').html('');
+					$('#msg').hide();
+					$('#msg').html('');
+                    
+                    var api_ip = 'http://192.168.68.108:8000/api/v1';
+                    var status = $('#status').val();
+					
+					const options = {
+						method: "post",
+						headers: { "Accept": "application/json" },
+						data:{
+                            'status': status
+						},
+						serializer: "json"
+					};
+
+                    cordova.plugin.http.sendRequest(api_ip+'/user-list', options, function(response) {
+                        if(response.status==200){
+                            $('.resultBody').html('');
+                            const jsonObj = JSON.parse(response.data)
+
+                            if(jsonObj.total == 0){
+                                $('#msg').show();
+                                $('#msg').html('Sorry, no data found.');
+                                return false;
+                            }
+                            
+                            $('#msgSuccess').show();
+                            $('#msgSuccess').html('Total found '+jsonObj.total);
+
+                            const users = jsonObj.result
+                            users.forEach(function(user) {
+                                $('.resultBody').append('<tr>');
+                                $('.resultBody').append('<td>'+user.name+'</td>');
+                                $('.resultBody').append('<td>'+user.email+'</td>');
+                                $('.resultBody').append('</tr>');
+                            });
+                        }else{
+                            $('#msg').show();
+                            $('#msg').html('Sorry, no data found.');
+                        }
+                    }, function(response) {
+                        $('#msgSuccess').hide();
+                        $('#msgSuccess').html('');
+
+						if (response.status === -1) {
+							$('#msg').show();
+							$('#msg').html('Sorry, API fetch error.');
+						} else {
+							$('#msg').show();
+							$('#msg').html('Sorry, API fetch error.');
+							// $('#msg').html(response.error);
+						}
+                    });
+				});
+			});
+
+			$('.btnReset').click(function(){
+                $('.resultBody').html('');
+                $('#msg').hide();
+                $('#msg').html('');
+                $('#msgSuccess').hide();
+                $('#msgSuccess').html('');
+				$('#status').val(100);
+			});
+		</script>
+
+		<script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>

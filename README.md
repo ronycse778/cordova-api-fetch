@@ -21,7 +21,7 @@ Install it in app project by
 To show bug, output or anything in android studio console add
 <pre>cordova plugin add cordova-plugin-console</pre>
 
-After importing the project to android studio, to bind this ip(192.168.68.108) <br>
+<b>After importing the project to android studio,</b> to bind this ip(192.168.68.108) <br>
 1. Update your AndroidManifest.xml to use the network security configuration. <br>
 <application <br>
         android:networkSecurityConfig="@xml/network_security_config" <br>
@@ -29,5 +29,10 @@ After importing the project to android studio, to bind this ip(192.168.68.108) <
     </application> <br>
 2. Create a file named network_security_config.xml in the res/xml directory of your project (create the xml directory if it doesn't exist). <br>
 content of this xml not shown in here, so check it from snapshot from Data.Source folder
+
+<b>To use this repository:</b> <br>
+Clone it, unzip node_modules.zip, platforms.zip, plugins.zip <br>
+Change ip address from www folder/index.html file. <br>
+Check app ouput snapshot. <br>
 
 Done

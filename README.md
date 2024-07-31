@@ -8,7 +8,7 @@ For API server I use this repository <br>
 https://github.com/ronycse778/laravel-simple-rest-api
 
 Type ipconfig in CMD, to find pc ip. suppose(192.168.68.108) <br>
-Clone and follow processes and run server with
+Clone the API server repository and follow processes and run with
 <pre>php artisan serve --host=0.0.0.0</pre>
 So, basically the server will run in <code>http://192.168.68.108:8000</code> <br>
 If server is ok, it can be checked with the link <code>http://192.168.68.108:8000/api/v1/users</code> in browser. <br>
